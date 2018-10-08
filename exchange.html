@@ -1,50 +1,63 @@
 <!DOCTYPE html>
 <html>
+<!--  
+Used to show viewport
+with class="col" il compartamento di default e' impilare (mobile first)
+col-sim si applica del breakpoint sm a salire. cioÃ¨ si cerca di metterli uno dopo l'altro
+-->
 	<head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="https://code.jquery.com/mobile/1.2.1/jquery.mobile-1.2.1.min.css" />
-        <script src="https://code.jquery.com/jquery-1.8.3.min.js"></script>
-        <script src="https://code.jquery.com/mobile/1.2.1/jquery.mobile-1.2.1.min.js"></script>
-        <!--<script src="http://code.jquery.com/jquery-3.1.1.slim.min.js"></script>-->
-        <title>TEMPLATE</title>
-        </head>
-
-<body>
- <div data-role="page">
-
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.2.1/jquery.mobile-1.2.1.min.css" />
+	<script src="http://code.jquery.com/jquery-1.8.3.min.js"></script>
+	<script src="http://code.jquery.com/mobile/1.2.1/jquery.mobile-1.2.1.min.js"></script>
+	<!--<script src="http://code.jquery.com/jquery-3.1.1.slim.min.js"></script>-->
+	<title>TEMPLATE</title>
+	</head>
+	<body>
+	<div data-role="page">
 	<div data-role="header">
-		<h1>EXCHANGE R</h1>
+		<h1>CHANGE RATES</h1>
+		<div data-role="navbar">
+</div><!-- /navbar -->
 	</div><!-- /header -->
-
-	<div role="main" class="ui-content">
-		<a data-role="button" onclick="getData()">Link button</a>
+	<div data-role="content">
+		<a data-role="button" data-icon="star" onclick="getdata()">Get latest rates</a>	
+		<ul id="all" data-role="listview" data-inset="true" data-filter="false">
+		</ul>	
 	</div><!-- /content -->
 
 </div><!-- /page -->
-	
+
 	<script>
-		function getData() {
-		
-				endpoint = 'latest'
-				access_key = '4d8d55f5d99d2320dcf0658f8a612e69';
-
-				// get the most recent exchange rates via the "latest" endpoint:
-				$.ajax({
-    					url: 'https://data.fixer.io/api/' + endpoint + '?access_key=' + access_key,   
-    					dataType: 'jsonp',
-    					success: function(json) {
-
-				        // exchange rata data is stored in json.rates
-					rate = json['rates']
-        				alert(rate);
-        
-       				}
-				});
-
+		function getdata() {
+			endpoint = 'latest'
+			access_key = '8d55f5d99d2320dcf0658f8a612e69';
+			// get the most recent exchange rates via the "latest" endpoint:
+			$.ajax({
+    				url: 'http://data.fixer.io/api/' + endpoint + '?access_key=' + access_key,   
+    				dataType: 'jsonp',
+    				success: function(json) {
+				rates = json['rates'];
+				//alert(rates);
+				for (var k in rates) {
+					$( "#all" ).append( "<li>"+k+"  "+rates[k]+"</li>" );
+					//  string1 += object1[property1];
 				}
-		
-		
+				$("#all").listview('refresh');
+			        // exchange rata data is stored in json.rates
+        			//alert(json.rates.GBP);
+        
+        			// base currency is stored in json.base
+        			//alert(json.base);
+        
+        			// timestamp can be accessed in json.timestamp
+        			//alert(json.timestamp);
+        
+  		  }
+		});
+		}
 	</script>
+
 	</body>
 </html>
